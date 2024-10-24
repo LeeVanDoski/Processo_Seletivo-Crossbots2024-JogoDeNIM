@@ -20,7 +20,7 @@
 		cout << "Este jogo de Nim eh baseado em pilhas, ou seja," << endl;
 		cout << "voce nao pode remover palitos de duas pilhas diferentes" << endl;
 		cout << "Dado o numero de pilhas e o total de palitos, as pilhas serao montadas aleatoriamente" << endl;
-		cout << "Para visualização, não escolha números exorbitantes, use no maximo 42 pilhas " << endl;
+		cout << "Para visualizacao, nao escolha numeros exorbitantes, use no maximo 42 pilhas " << endl;
 		cout << "Bom jogo ;)" << endl;
 
 		while (rodando) {
@@ -132,7 +132,7 @@
 
 		
 		if (pilhas > palitos) {
-			cout << "Número de pilhas maior que o número de palitos. Tente novamente." << endl;
+			cout << "Numero de pilhas maior que o numero de palitos. Tente novamente." << endl;
 			return vector<int>(); 
 		}
 
