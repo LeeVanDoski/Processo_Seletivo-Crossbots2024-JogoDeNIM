@@ -10,29 +10,32 @@
 		int num;
 		int aux;
 
-		cout << "Este jogo de Nim é baseado em pilhas, ou seja," << endl;
+		cout << "Este jogo de Nim eh baseado em pilhas, ou seja," << endl;
 		cout << "voce nao pode remover palitos de duas pilhas diferentes" << endl;
 		cout << "Dado o numero de pilhas e o total de palitos, as pilhas serao montadas aleatoriamente" << endl;
+		cout << "Para visualização, não escolha números exorbitantes, use no maximo 42 pilhas " << endl;
 		cout << "Bom jogo ;)" << endl;
 
 		while (rodando) {
 			switch (cont) {
 			case 0:
-				cout << "Digite a quantidade de pilhas que deseja(1-42): ";
+				cout << "Digite a quantidade de pilhas que deseja: ";
 				cin >> numP;
 				cont = 1;
 				break;
 			case 1:
-				cout << "Digite a quantidade de pecas(1-150): ";
+				cout << "Digite a quantidade de pecas: ";
 				cin >> num;
 				pilhas = geraQtdPalitosPilha(numP, num);
-				system("cls");
-				desenhaPalitos();
-				cont = 5;
+				if (!pilhas.empty()) {
+					system("cls");
+					desenhaPalitos();
+					cont = 5;
+				}
 				break;
 
 			case 2:
-				cout << "Escolha de qual pilha vai retirar: ";
+				cout << "Escolha de qual pilha vai retirar(0...n-1): ";
 				cin >> numP;
 				if (!pilhaErro(numP))
 					cont = 3;
@@ -90,7 +93,7 @@
 		if (pilhas.empty())
 			return;
 		vector<int> vecSup = this->pilhas;
-		int maxSticks = *max_element(vecSup.begin(), vecSup.end());
+		//int maxPalitos = *max_element(vecSup.begin(), vecSup.end());
 		int width = 2; 
 
 		while (accumulate(vecSup.begin(), vecSup.end(), 0) != 0) {
@@ -101,64 +104,64 @@
 					vecSup[i]--;
 				}
 				else {
-					cout << " "; // Print space if there are no sticks
+					cout << " "; // se n tiver palitos
 				}
-				cout << "  "; // Space between piles
+				cout << "  "; // espaco entre pilhas
 			}
-			cout << endl; // Move to the next line after drawing the sticks
+			cout << endl; //proxima linha
 		}
-		cout << setw(width); // Align with column width for the sums
+		cout << setw(width); // alinha
 		for (size_t i = 0; i < pilhas.size(); i++) {
-			cout << pilhas[i]; // Print the sum for each column
-			cout << "   "; // Space between sums
+			cout << pilhas[i]; 
+			cout << "   "; // espaco soma
 		}
 		cout << endl;
 	}
 	vector<int> JogoDeNim::geraQtdPalitosPilha(int pilhas, int palitos) {
 		vector<int> qtdPalitos(pilhas);
 
-		// Inicializa o gerador de números aleatórios
+		
 		srand(static_cast<unsigned>(time(0)));
 
-		// Garantir que o número de pilhas não exceda o número de palitos
+		
 		if (pilhas > palitos) {
 			cout << "Número de pilhas maior que o número de palitos. Tente novamente." << endl;
-			return vector<int>(); // Retorna um vetor vazio em caso de erro
+			return vector<int>(); 
 		}
 
-		// Garantir pelo menos 1 palito em cada pilha
+		// pelo menos 1 palito em cada pilha
 		for (int i = 0; i < pilhas; ++i) {
 			qtdPalitos[i] = 1;
 		}
 
-		// Calcula os palitos restantes após a distribuição inicial
+		// calcula os palitos restantes
 		palitos -= pilhas;
 
-		// Distribui uma quantidade base maior na primeira pilha
-		int base = palitos / (2 * pilhas); // Definindo uma base proporcional para distribuição
-		qtdPalitos[0] += base; // Aumenta a primeira pilha com a base
-		palitos -= base; // Ajusta o número de palitos restantes
+		// distribui uma quantidade base maior na primeira pilha
+		int base = palitos / (2 * pilhas); 
+		qtdPalitos[0] += base; 
+		palitos -= base; 
 
-		// Distribuição das peças restantes para todas as pilhas de forma mais equilibrada
+		// distribui restante
 		for (int i = 0; i < pilhas; ++i) {
-			if (palitos <= 0) break; // Para se não houver mais palitos para distribuir
+			if (palitos <= 0) break;
 
-			int addSticks = rand() % (palitos / (pilhas - i) + 1); // Distribui de forma proporcional
-			qtdPalitos[i] += addSticks; // Adiciona os palitos à pilha atual
-			palitos -= addSticks; // Atualiza o número de palitos restantes
+			int addPalitos = rand() % (palitos / (pilhas - i) + 1); // proporcional
+			qtdPalitos[i] += addPalitos; 
+			palitos -= addPalitos; 
 		}
 
-		// Se ainda houver palitos restantes, adiciona-os aleatoriamente
+		// se ainda houver palitos restantes adiciona aleatoriamente
 		while (palitos > 0) {
 			for (int i = 0; i < pilhas; ++i) {
 				if (palitos > 0) {
-					qtdPalitos[i]++; // Adiciona um palito a uma pilha aleatória
-					palitos--; // Atualiza o número de palitos restantes
+					qtdPalitos[i]++; 
+					palitos--;
 				}
 			}
 		}
 
-		// Ordena a distribuição em ordem decrescente
+		// ordena
 		sort(qtdPalitos.begin(), qtdPalitos.end(), greater<int>());
 
 		return qtdPalitos;
@@ -179,12 +182,11 @@
 		}
 		else {
 
-			// Procura por uma pilha que possa ser modificada para zerar o nim-sum
 			for (int i = 0; i < pilhas.size(); i++) {
-				int novaPilha = pilhas[i] ^ nimSum; // Tenta alterar o valor da pilha
-				if (novaPilha < pilhas[i]) { // Verifica se é uma jogada válida
+				int novaPilha = pilhas[i] ^ nimSum; 
+				if (novaPilha < pilhas[i]) { 
 					cout << "Bot retirou " << pilhas[i] - novaPilha << " peca(s) da pilha " << i + 1 << endl;
-					pilhas[i] = novaPilha; // Faz a jogada para zerar o nim-sum
+					pilhas[i] = novaPilha; 
 					break;
 				}
 			}
