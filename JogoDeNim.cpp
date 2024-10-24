@@ -12,9 +12,9 @@
 		const char* osClean;
 #ifndef __WIN32 //acha sistema pra dar clean no terminal
 		osClean = "cls";
-#elif __linux__
+#else
 		osClean = "clear";
-#endif // !__WIN32__
+#endif // !__WIN32
 
 
 		cout << "Este jogo de Nim eh baseado em pilhas, ou seja," << endl;
