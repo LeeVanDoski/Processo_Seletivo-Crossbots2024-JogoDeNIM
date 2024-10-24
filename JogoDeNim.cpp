@@ -9,6 +9,13 @@
 		int numP;
 		int num;
 		int aux;
+		const char* osClean;
+#ifndef __WIN32 //acha sistema pra dar clean no terminal
+		osClean = "cls";
+#elif __linux__
+		osClean = "clear";
+#endif // !__WIN32__
+
 
 		cout << "Este jogo de Nim eh baseado em pilhas, ou seja," << endl;
 		cout << "voce nao pode remover palitos de duas pilhas diferentes" << endl;
@@ -28,7 +35,7 @@
 				cin >> num;
 				pilhas = geraQtdPalitosPilha(numP, num);
 				if (!pilhas.empty()) {
-					system("cls");
+					system(osClean);
 					desenhaPalitos();
 					cont = 5;
 				}
@@ -45,14 +52,14 @@
 				cin >> num;
 				if (!pecasErro(numP, num)) {
 					retiraPalitos(numP, num);
-					system("cls");
+					system(osClean);
 					desenhaPalitos();
 					cont = 4;
 				}
 				break;
 			case 4:
 				cont = 2;
-				system("cls");
+				system(osClean);
 				bot();
 				desenhaPalitos();
 				break;
